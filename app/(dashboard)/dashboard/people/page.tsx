@@ -29,7 +29,7 @@ interface Props {
 export default async function Page({ searchParams }: Props) {
   const page = searchParams.page || 1;
   console.log(page);
-
+  await new Promise((resolve) => setTimeout(resolve, 2000));
   const res = await getUsers(page);
 
   return (
