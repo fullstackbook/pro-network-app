@@ -1,10 +1,13 @@
 "use client";
 
-import { AppShell, Avatar, Burger, Menu } from "@mantine/core";
+import { AppShell, Avatar, Burger, Menu, NavLink } from "@mantine/core";
 import { useDisclosure } from "@mantine/hooks";
 import {
+  IconDashboard,
   IconDoorExit,
   IconSettings,
+  IconStar,
+  IconUser,
   IconUserCircle,
 } from "@tabler/icons-react";
 import { signOut } from "next-auth/react";
@@ -60,7 +63,29 @@ export default function AppShellContainer({
           </div>
         </div>
       </AppShell.Header>
-      <AppShell.Navbar>navbar</AppShell.Navbar>
+      <AppShell.Navbar>
+        <NavLink
+          component={Link}
+          href="/dashboard"
+          label="Dashboard"
+          leftSection={<IconDashboard />}
+          active={pathname === "/dashboard"}
+        />
+        <NavLink
+          component={Link}
+          href="/dashboard/people"
+          label="People"
+          leftSection={<IconUser />}
+          active={pathname === "/dashboard/people"}
+        />
+        <NavLink
+          component={Link}
+          href="/dashboard/skills"
+          label="Skills"
+          leftSection={<IconStar />}
+          active={pathname === "/dashboard/skills"}
+        />
+      </AppShell.Navbar>
       <AppShell.Main>{children}</AppShell.Main>
     </AppShell>
   );
