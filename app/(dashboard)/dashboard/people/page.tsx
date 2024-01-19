@@ -1,7 +1,13 @@
 import { db } from "@/lib/db";
 
+const PER_PAGE = 20;
+
 async function getUsers(page: number) {
-  const data = await db.query.users.findMany();
+  const offset = PER_PAGE * (page - 1);
+  const data = await db.query.users.findMany({
+    limit: PER_PAGE,
+    offset: offset,
+  });
   return data;
 }
 
@@ -18,7 +24,7 @@ export default async function Page({ searchParams }: Props) {
   return (
     <div>
       {res.map((user) => (
-        <div>
+        <div key={user.id}>
           {user.name} - {user.jobTitle}
         </div>
       ))}
