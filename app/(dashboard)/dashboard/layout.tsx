@@ -3,6 +3,7 @@ import { getServerSession } from "next-auth";
 import { redirect } from "next/navigation";
 import { ReactNode } from "react";
 import SessionProvider from "@/components/session-provider";
+import AppShellContainer from "@/components/app-shell-container";
 
 export default async function Layout({ children }: { children: ReactNode }) {
   const session = await getServerSession(authOptions);
@@ -11,5 +12,9 @@ export default async function Layout({ children }: { children: ReactNode }) {
     redirect("/signin");
   }
 
-  return <SessionProvider session={session}>{children}</SessionProvider>;
+  return (
+    <SessionProvider session={session}>
+      <AppShellContainer>{children}</AppShellContainer>
+    </SessionProvider>
+  );
 }
