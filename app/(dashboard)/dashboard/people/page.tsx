@@ -3,6 +3,7 @@ import UserCard from "@/components/user-card";
 import { db } from "@/lib/db";
 import { users } from "@/lib/schema";
 import { count } from "drizzle-orm";
+import Link from "next/link";
 
 const PER_PAGE = 20;
 
@@ -38,7 +39,9 @@ export default async function Page({ searchParams }: Props) {
       <div className="grid grid-col-1 sm:grid-cols-2 lg:grid-cols-3 gap-5">
         {res.data.map((user) => (
           <div key={user.id}>
-            <UserCard user={user} />
+            <Link href={`/dashboard/people/${user.id}`}>
+              <UserCard user={user} />
+            </Link>
           </div>
         ))}
       </div>
