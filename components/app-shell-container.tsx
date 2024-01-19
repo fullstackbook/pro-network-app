@@ -17,8 +17,10 @@ import { ReactNode } from "react";
 
 export default function AppShellContainer({
   children,
+  user,
 }: {
   children: ReactNode;
+  user: any;
 }) {
   const [opened, { toggle }] = useDisclosure();
   const pathname = usePathname();
@@ -45,7 +47,7 @@ export default function AppShellContainer({
             <div>
               <Menu>
                 <Menu.Target>
-                  <Avatar>
+                  <Avatar src={user.image}>
                     <IconUserCircle />
                   </Avatar>
                 </Menu.Target>
