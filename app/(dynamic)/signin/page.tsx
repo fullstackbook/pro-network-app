@@ -8,7 +8,7 @@ export default async function SignIn() {
   const session = await getServerSession(authOptions);
 
   if (session) {
-    redirect("/");
+    redirect("/dashboard");
   }
 
   const providers: any = await getProviders();
