@@ -1,14 +1,23 @@
 import { db } from "@/lib/db";
+import { users } from "@/lib/schema";
+import { count } from "drizzle-orm";
 
 const PER_PAGE = 20;
 
 async function getUsers(page: number) {
+  const countRes = await db.select({ value: count() }).from(users);
   const offset = PER_PAGE * (page - 1);
   const data = await db.query.users.findMany({
     limit: PER_PAGE,
     offset: offset,
   });
-  return data;
+  const userCount = countRes[0].value;
+  const numPages = Math.ceil(userCount / PER_PAGE);
+  return {
+    data: data,
+    count: userCount,
+    numpages: numPages,
+  };
 }
 
 interface Props {
@@ -23,7 +32,7 @@ export default async function Page({ searchParams }: Props) {
 
   return (
     <div>
-      {res.map((user) => (
+      {res.data.map((user) => (
         <div key={user.id}>
           {user.name} - {user.jobTitle}
         </div>
