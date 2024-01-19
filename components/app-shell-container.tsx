@@ -1,7 +1,14 @@
 "use client";
 
-import { AppShell, Burger } from "@mantine/core";
+import { AppShell, Avatar, Burger, Menu } from "@mantine/core";
 import { useDisclosure } from "@mantine/hooks";
+import {
+  IconDoorExit,
+  IconSettings,
+  IconUserCircle,
+} from "@tabler/icons-react";
+import { signOut } from "next-auth/react";
+import Link from "next/link";
 import { usePathname } from "next/navigation";
 import { ReactNode } from "react";
 
@@ -29,6 +36,27 @@ export default function AppShellContainer({
               size="sm"
             />
             Professional Network
+          </div>
+          <div className="flex justify-end gap-5 h-full items-center p-5">
+            <div>Search</div>
+            <div>
+              <Menu>
+                <Menu.Target>
+                  <Avatar>
+                    <IconUserCircle />
+                  </Avatar>
+                </Menu.Target>
+                <Menu.Dropdown>
+                  <Menu.Label>Menu</Menu.Label>
+                  <Menu.Item leftSection={<IconSettings />}>
+                    <Link href="/dashboard/profile">Edit Profile</Link>
+                  </Menu.Item>
+                  <Menu.Item leftSection={<IconDoorExit />}>
+                    <button onClick={() => signOut()}>Sign out</button>
+                  </Menu.Item>
+                </Menu.Dropdown>
+              </Menu>
+            </div>
           </div>
         </div>
       </AppShell.Header>
