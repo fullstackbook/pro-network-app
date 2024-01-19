@@ -38,7 +38,7 @@ export default async function Page({ searchParams }: Props) {
           {user.name} - {user.jobTitle}
         </div>
       ))}
-      <PaginationContainer total={res.count} />
+      <PaginationContainer total={res.numPages} />
     </div>
   );
 }
