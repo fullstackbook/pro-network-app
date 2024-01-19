@@ -1,3 +1,4 @@
+import PaginationContainer from "@/components/pagination-container";
 import { db } from "@/lib/db";
 import { users } from "@/lib/schema";
 import { count } from "drizzle-orm";
@@ -16,7 +17,7 @@ async function getUsers(page: number) {
   return {
     data: data,
     count: userCount,
-    numpages: numPages,
+    numPages: numPages,
   };
 }
 
@@ -37,6 +38,7 @@ export default async function Page({ searchParams }: Props) {
           {user.name} - {user.jobTitle}
         </div>
       ))}
+      <PaginationContainer total={res.count} />
     </div>
   );
 }
