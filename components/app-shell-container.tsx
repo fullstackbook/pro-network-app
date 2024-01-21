@@ -14,6 +14,7 @@ import { signOut } from "next-auth/react";
 import Link from "next/link";
 import { usePathname } from "next/navigation";
 import { ReactNode } from "react";
+import SearchInput from "./search-input";
 
 export default function AppShellContainer({
   children,
@@ -43,7 +44,9 @@ export default function AppShellContainer({
             Professional Network
           </div>
           <div className="flex justify-end gap-5 h-full items-center p-5">
-            <div>Search</div>
+            <div>
+              <SearchInput />
+            </div>
             <div>
               <Menu>
                 <Menu.Target>
