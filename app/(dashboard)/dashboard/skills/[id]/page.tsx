@@ -1,3 +1,4 @@
+import SortSkillSelect from "@/components/sort-skill-select";
 import { db } from "@/lib/db";
 import { skills, users, usersToSkills } from "@/lib/schema";
 import { eq } from "drizzle-orm";
@@ -15,8 +16,14 @@ async function getUsersBySkillId(id: string) {
     .where(eq(usersToSkills.skillId, id));
 }
 
-export default async function Page({ params }: { params: { id: string } }) {
+interface Props {
+  params: { id: string };
+  searchParams: { sort: string };
+}
+
+export default async function Page({ params, searchParams }: Props) {
   const { id } = params;
+  const { sort } = searchParams;
   const skill = await getSkillById(id);
   const data = await getUsersBySkillId(id);
 
@@ -27,6 +34,7 @@ export default async function Page({ params }: { params: { id: string } }) {
   return (
     <div>
       <h1>Users with {skill.name} skill</h1>
+      <SortSkillSelect value={sort} />
       <ul>
         {data.map((d) => (
           <li key={d.user.id}>
