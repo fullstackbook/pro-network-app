@@ -1,3 +1,4 @@
+import UsersTable from "@/components/users-table";
 import { db } from "@/lib/db";
 import { users } from "@/lib/schema";
 import { ilike, or } from "drizzle-orm";
@@ -25,11 +26,7 @@ export default async function Page({ searchParams }: Props) {
 
   return (
     <div>
-      {users.map((user) => (
-        <div>
-          {user.name} - {user.firstName} {user.lastName}
-        </div>
-      ))}
+      <UsersTable users={users} />
     </div>
   );
 }
