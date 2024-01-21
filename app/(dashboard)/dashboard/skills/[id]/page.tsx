@@ -1,19 +1,36 @@
 import SortSkillSelect from "@/components/sort-skill-select";
 import { db } from "@/lib/db";
 import { skills, users, usersToSkills } from "@/lib/schema";
-import { eq } from "drizzle-orm";
+import { desc, eq } from "drizzle-orm";
 import { notFound } from "next/navigation";
 
 async function getSkillById(id: string) {
   return await db.query.skills.findFirst({ where: eq(skills.id, id) });
 }
 
-async function getUsersBySkillId(id: string) {
-  return await db
+async function getUsersBySkillId(id: string, sort: string) {
+  const promise = db
     .select()
     .from(users)
     .leftJoin(usersToSkills, eq(users.id, usersToSkills.userId))
     .where(eq(usersToSkills.skillId, id));
+
+  switch (sort) {
+    case "name":
+      promise.orderBy(users.name);
+      break;
+    case "-name":
+      promise.orderBy(desc(users.name));
+      break;
+    case "rating":
+      promise.orderBy(usersToSkills.rating);
+      break;
+    case "-rating":
+      promise.orderBy(desc(usersToSkills.rating));
+      break;
+  }
+
+  return await promise;
 }
 
 interface Props {
@@ -25,7 +42,7 @@ export default async function Page({ params, searchParams }: Props) {
   const { id } = params;
   const { sort } = searchParams;
   const skill = await getSkillById(id);
-  const data = await getUsersBySkillId(id);
+  const data = await getUsersBySkillId(id, sort);
 
   if (!skill) {
     return notFound();
