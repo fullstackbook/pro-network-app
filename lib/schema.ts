@@ -6,6 +6,7 @@ import {
   integer,
 } from "drizzle-orm/pg-core";
 import type { AdapterAccount } from "@auth/core/adapters";
+import { relations } from "drizzle-orm";
 
 export const users = pgTable("user", {
   id: text("id").notNull().primaryKey(),
@@ -61,3 +62,39 @@ export const verificationTokens = pgTable(
     compoundKey: primaryKey({ columns: [vt.identifier, vt.token] }),
   })
 );
+
+export const skills = pgTable("skills", {
+  id: text("id").notNull().primaryKey(),
+  name: text("name").notNull().unique(),
+});
+
+export const usersToSkills = pgTable(
+  "users_to_skills",
+  {
+    userId: text("user_id").notNull(),
+    skillId: text("skill_id").notNull(),
+    rating: integer("rating"),
+  },
+  (us) => ({
+    compoundKey: primaryKey({ columns: [us.userId, us.skillId] }),
+  })
+);
+
+export const usersRelations = relations(users, ({ many }) => ({
+  usersToUsersSkills: many(usersToSkills),
+}));
+
+export const skillsRelations = relations(skills, ({ many }) => ({
+  skillsToUsersSkills: many(usersToSkills),
+}));
+
+export const usersToSkillsRelations = relations(usersToSkills, ({ one }) => ({
+  skill: one(skills, {
+    fields: [usersToSkills.skillId],
+    references: [skills.id],
+  }),
+  user: one(users, {
+    fields: [usersToSkills.userId],
+    references: [users.id],
+  }),
+}));
