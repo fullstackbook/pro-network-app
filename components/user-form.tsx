@@ -5,13 +5,18 @@ import { User } from "@/lib/types";
 import { Button, TextInput, Textarea } from "@mantine/core";
 import { useFormState } from "react-dom";
 import { notifications } from "@mantine/notifications";
-import { useEffect } from "react";
+import { useEffect, useState } from "react";
 import Editor from "./editor";
 
 export default function UserForm({ user }: { user: User }) {
   const initialState = { errors: {} };
 
   const [state, dispatch] = useFormState(updateUser, initialState);
+  const [bio, setBio] = useState(user.bio);
+
+  function handleUpdate(html: string) {
+    setBio(html);
+  }
 
   useEffect(() => {
     if (state.success) {
@@ -41,7 +46,9 @@ export default function UserForm({ user }: { user: User }) {
           />
         </div>
         <div>
-          <Editor />
+          <label>Bio</label>
+          <Editor content={user.bio || ""} onUpdate={handleUpdate} />
+          <input type="hidden" name="bio" value={bio || ""} />
         </div>
         <div>
           <Button type="submit">Submit</Button>
