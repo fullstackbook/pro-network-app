@@ -12,7 +12,7 @@ const UpdateUserSchema = z.object({
   bio: z.string(),
 });
 
-interface UpdateUserState {
+export interface UpdateUserState {
   errors?: {
     jobTitle?: string[];
     bio?: string[];

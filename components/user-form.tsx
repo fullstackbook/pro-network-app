@@ -1,6 +1,6 @@
 "use client";
 
-import { updateUser } from "@/lib/actions";
+import { UpdateUserState, updateUser } from "@/lib/actions";
 import { User } from "@/lib/types";
 import { Button, TextInput, Textarea } from "@mantine/core";
 import { useFormState } from "react-dom";
@@ -9,7 +9,7 @@ import { useEffect, useState } from "react";
 import Editor from "./editor";
 
 export default function UserForm({ user }: { user: User }) {
-  const initialState = { errors: {} };
+  const initialState: UpdateUserState = { errors: {} };
 
   const [state, dispatch] = useFormState(updateUser, initialState);
   const [bio, setBio] = useState(user.bio);
@@ -32,7 +32,7 @@ export default function UserForm({ user }: { user: User }) {
         color: "red",
       });
     }
-  });
+  }, [state]);
 
   return (
     <div>
