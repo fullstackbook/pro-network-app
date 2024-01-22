@@ -18,22 +18,26 @@ export default async function Page() {
   console.log(usersToSkills);
 
   return (
-    <div>
-      <h1>Manage Skills</h1>
-      <table>
+    <div className="flex flex-col gap-5 max-w-xl">
+      <h1 className="font-bold text-xl">Manage Skills</h1>
+      <table className="border-collapse border-0">
         <thead>
           <tr>
-            <th>Name</th>
-            <th>Rating</th>
-            <th>Delete</th>
+            <th className="border-slate-600 p-2 border-b text-left">Name</th>
+            <th className="border-slate-600 p-2 border-b text-left">Rating</th>
+            <th className="border-slate-600 p-2 border-b text-left">Delete</th>
           </tr>
         </thead>
         <tbody>
           {usersToSkills.map((userToSkill) => (
             <tr key={userToSkill.skill.id}>
-              <td>{userToSkill.skill.name}</td>
-              <td>{userToSkill.rating}</td>
-              <td>DELETE</td>
+              <td className="border-slate-600 p-2 border-t">
+                {userToSkill.skill.name}
+              </td>
+              <td className="border-slate-600 p-2 border-t">
+                {userToSkill.rating}
+              </td>
+              <td className="border-slate-600 p-2 border-t">DELETE</td>
             </tr>
           ))}
         </tbody>
