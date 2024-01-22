@@ -6,6 +6,7 @@ import { Button, TextInput, Textarea } from "@mantine/core";
 import { useFormState } from "react-dom";
 import { notifications } from "@mantine/notifications";
 import { useEffect } from "react";
+import Editor from "./editor";
 
 export default function UserForm({ user }: { user: User }) {
   const initialState = { errors: {} };
@@ -40,12 +41,7 @@ export default function UserForm({ user }: { user: User }) {
           />
         </div>
         <div>
-          <Textarea
-            label="Bio"
-            name="bio"
-            error={state?.errors?.bio}
-            defaultValue={user.bio!}
-          />
+          <Editor />
         </div>
         <div>
           <Button type="submit">Submit</Button>
