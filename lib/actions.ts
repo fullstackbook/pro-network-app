@@ -7,6 +7,7 @@ import { db } from "./db";
 import { users, usersToSkills } from "./schema";
 import { and, eq } from "drizzle-orm";
 import { revalidatePath } from "next/cache";
+import { NewUserToSkill } from "./types";
 
 const UpdateUserSchema = z.object({
   jobTitle: z.string().min(3),
@@ -101,5 +102,64 @@ export async function updateSkillRating(
 
   return {
     success: "Update skill success",
+  };
+}
+
+const AddUsersToSkillsSchema = z.object({
+  skillId: z.string().uuid(),
+  rating: z.number().min(1).max(5),
+});
+
+export interface AddUsersToSkillsState {
+  errors?: {
+    skillId?: string[];
+    rating?: string[];
+  };
+  message?: string;
+  success?: string;
+}
+
+export async function addUsersToSkills(
+  prevState: AddUsersToSkillsState,
+  formData: FormData
+): Promise<AddUsersToSkillsState> {
+  const session = await getServerSession(authOptions);
+
+  const validatedFields = AddUsersToSkillsSchema.safeParse({
+    skillId: formData.get("skillId"),
+    rating: parseInt(formData.get("rating")?.toString()!),
+  });
+
+  if (!validatedFields.success) {
+    return {
+      errors: validatedFields.error.flatten().fieldErrors,
+      message: "An error occurred",
+    };
+  }
+
+  const userToSkill = await db.query.usersToSkills.findFirst({
+    where: and(
+      eq(usersToSkills.skillId, validatedFields.data.skillId),
+      eq(usersToSkills.userId, session?.user.id)
+    ),
+  });
+
+  if (userToSkill) {
+    return {
+      message: "Rating for this skill already exists",
+    };
+  }
+
+  const newUserToSkill: NewUserToSkill = {
+    skillId: validatedFields.data.skillId,
+    userId: session?.user.id,
+    rating: validatedFields.data.rating,
+  };
+
+  await db.insert(usersToSkills).values(newUserToSkill);
+
+  revalidatePath("/dashboard/profile/skills");
+  return {
+    success: "User to skill created",
   };
 }
