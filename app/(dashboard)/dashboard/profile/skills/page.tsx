@@ -1,4 +1,5 @@
 import AddUserToSkillBtn from "@/components/add-user-to-skill-btn";
+import DeleteUserToSkillBtn from "@/components/delete-user-to-skill-btn";
 import { SkillRatingForm } from "@/components/skill-rating-form";
 import { authOptions } from "@/lib/auth";
 import { db } from "@/lib/db";
@@ -47,7 +48,9 @@ export default async function Page() {
                   skillId={userToSkill.skillId}
                 />
               </td>
-              <td className="border-slate-600 p-2 border-t">DELETE</td>
+              <td className="border-slate-600 p-2 border-t">
+                <DeleteUserToSkillBtn skillId={userToSkill.skillId} />
+              </td>
             </tr>
           ))}
         </tbody>
