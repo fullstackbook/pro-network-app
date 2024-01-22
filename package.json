@@ -10,6 +10,7 @@
   },
   "dependencies": {
     "@auth/drizzle-adapter": "^0.3.15",
+    "@mantine/charts": "^7.4.1",
     "@mantine/core": "^7.4.1",
     "@mantine/hooks": "^7.4.1",
     "@mantine/notifications": "^7.4.1",
@@ -31,6 +32,7 @@
     "pg": "^8.11.3",
     "react": "^18",
     "react-dom": "^18",
+    "recharts": "^2.10.4",
     "zod": "^3.22.4"
   },
   "devDependencies": {
