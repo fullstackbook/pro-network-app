@@ -15,7 +15,7 @@ const config: Config = {
       },
     },
   },
-  plugins: [],
+  plugins: [require("@tailwindcss/typography")],
   darkMode: ["class", '[data-mantine-color-scheme="dark"]'],
 };
 export default config;
