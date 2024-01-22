@@ -13,9 +13,14 @@ async function getUsersToSkillsByUserId(userId: string) {
   });
 }
 
+async function getAllSkills() {
+  return await db.query.skills.findMany();
+}
+
 export default async function Page() {
   const session = await getServerSession(authOptions);
   const usersToSkills = await getUsersToSkillsByUserId(session?.user.id);
+  const allSkills = await getAllSkills();
 
   console.log(usersToSkills);
 
@@ -48,7 +53,7 @@ export default async function Page() {
         </tbody>
       </table>
       <div>
-        <AddUserToSkillBtn />
+        <AddUserToSkillBtn allSkills={allSkills} />
       </div>
     </div>
   );
