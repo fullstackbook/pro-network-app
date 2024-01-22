@@ -1,3 +1,4 @@
+import AddUserToSkillBtn from "@/components/add-user-to-skill-btn";
 import { SkillRatingForm } from "@/components/skill-rating-form";
 import { authOptions } from "@/lib/auth";
 import { db } from "@/lib/db";
@@ -46,6 +47,9 @@ export default async function Page() {
           ))}
         </tbody>
       </table>
+      <div>
+        <AddUserToSkillBtn />
+      </div>
     </div>
   );
 }
