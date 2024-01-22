@@ -1,3 +1,4 @@
+import { SkillRatingForm } from "@/components/skill-rating-form";
 import { authOptions } from "@/lib/auth";
 import { db } from "@/lib/db";
 import { usersToSkills } from "@/lib/schema";
@@ -35,7 +36,10 @@ export default async function Page() {
                 {userToSkill.skill.name}
               </td>
               <td className="border-slate-600 p-2 border-t">
-                {userToSkill.rating}
+                <SkillRatingForm
+                  rating={userToSkill.rating || 0}
+                  skillId={userToSkill.skillId}
+                />
               </td>
               <td className="border-slate-600 p-2 border-t">DELETE</td>
             </tr>
