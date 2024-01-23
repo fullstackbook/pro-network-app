@@ -2,7 +2,7 @@ import UserCard from "@/components/user-card";
 import { db } from "@/lib/db";
 import { getKNearestNeighborsByUserId } from "@/lib/knn";
 import { users } from "@/lib/schema";
-import { Avatar, NumberFormatter } from "@mantine/core";
+import { Avatar, NumberFormatter, Rating } from "@mantine/core";
 import { eq } from "drizzle-orm";
 import { notFound } from "next/navigation";
 
@@ -34,12 +34,24 @@ export default async function Page({ params }: { params: { id: string } }) {
       <div>
         <UserCard user={user} />
       </div>
-      <div>
+      <div className="flex flex-col gap-5">
         <h2 className="font-bold text-xl">Bio</h2>
         <div
           className="prose dark:prose-invert"
           dangerouslySetInnerHTML={{ __html: user.bio ?? "" }}
         />
+        <h2 className="font-bold text-xl">Skills</h2>
+        <div>
+          {user.usersToUsersSkills.map((userToUserSkill) => (
+            <div
+              key={userToUserSkill.skillId}
+              className="max-w-sm justify-between flex flex-row"
+            >
+              <div>{userToUserSkill.skill.name}</div>
+              <Rating value={userToUserSkill.rating || undefined} readOnly />
+            </div>
+          ))}
+        </div>
         <h2 className="font-bold text-xl">Similar People</h2>
         <div className="flex flex-col gap-5">
           {similarPeople.map((person) => (
