@@ -1,3 +1,5 @@
+export const dynamic = "force-dynamic";
+
 import seedUsers from "@/scripts/seed-users";
 import seedJobTitles from "@/scripts/seed-job-titles";
 import seedSkills from "@/scripts/seed-skills";
