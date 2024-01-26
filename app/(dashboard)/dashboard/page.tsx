@@ -39,7 +39,7 @@ export default async function Page() {
       <h2 className="font-bold text-xl">Skills</h2>
       <BarChart
         h={300}
-        data={data}
+        data={data2}
         dataKey="name"
         type="stacked"
         orientation="vertical"
